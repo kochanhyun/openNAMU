@@ -735,10 +735,11 @@ app.wsgi_app = werkzeug.debug.DebuggedApplication(app.wsgi_app, True)
 app.debug = True
 
 if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 80))
     if sys.platform == 'win32' and sys.version_info[0:2] >= (3, 8):
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
     http_server = tornado.httpserver.HTTPServer(tornado.wsgi.WSGIContainer(app))
-    http_server.listen(int(server_set['port']), address = server_set['host'])
+    http_server.listen(port, address = server_set['host'])
 
     tornado.ioloop.IOLoop.instance().start()
